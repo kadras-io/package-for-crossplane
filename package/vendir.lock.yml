@@ -13,11 +13,5 @@ directories:
       tags:
       - v1.14.3
     path: crossplane
-  - git:
-      commitTitle: 'Merge pull request #119 from phisco/readiness_fromobject...'
-      sha: aa66b295e22b0a7b5956cb2c93e4b863bc20b880
-      tags:
-      - v0.10.0-rc.0
-    path: provider-kubernetes
   path: config/carvel/upstream
 kind: LockConfig

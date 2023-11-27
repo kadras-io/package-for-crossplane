@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crossplane-kubernetes-provider
+  name: crossplane
   namespace: crossplane-system
 status:
   readyReplicas: 1
