@@ -32,7 +32,7 @@ kbld:
 
 # Check the ytt-annotated Kubernetes configuration and its validation
 test-config:
-	ytt -f package/config | kubeconform -ignore-missing-schemas -summary
+	ytt -f package/config/carvel | kubeconform -ignore-missing-schemas -summary
 
 # Run package integration tests
 test-integration: test/integration
