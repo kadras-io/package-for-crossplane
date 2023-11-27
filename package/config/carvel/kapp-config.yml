@@ -1,0 +1,22 @@
+---
+apiVersion: kapp.k14s.io/v1alpha1
+kind: Config
+
+minimumRequiredVersion: 0.50.0
+
+#! Rebase rules explicitly define how kapp should merge resources during an update.
+#! See more about the resource merge method: https://carvel.dev/kapp/docs/latest/merge-method.
+rebaseRules:
+
+#! Some Secrets are created empty and populated at install time by Crossplane with TLS certificates.
+#! We prefer the manifest configuration, but allow the one set on the cluster.
+- paths:
+  - [data, ca.crt]
+  - [data, tls.crt]
+  - [data, tls.key]
+  type: copy
+  sources: [new, existing]
+  resourceMatchers:
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: crossplane-root-ca}
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: crossplane-tls-server}
+  - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: crossplane-tls-client}

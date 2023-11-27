@@ -1,0 +1,32 @@
+apiVersion: kctrl.carvel.dev/v1alpha1
+kind: PackageBuild
+metadata:
+  creationTimestamp: null
+  name: crossplane.packages.kadras.io
+spec:
+  template:
+    spec:
+      app:
+        spec:
+          deploy:
+          - kapp:
+              intoNs: crossplane-system
+          template:
+          - helmTemplate:
+              name: crossplane
+              namespace: crossplane-system
+              path: config/helm/upstream/crossplane
+              valuesFrom:
+              - path: config/helm/values.yml
+          - ytt:
+              ignoreUnknownComments: true
+              paths:
+              - '-'
+              - config/carvel
+          - kbld: {}
+      export:
+      - imgpkgBundle:
+          image: ghcr.io/kadras-io/package-for-crossplane
+          useKbldImagesLock: true
+        includePaths:
+        - config

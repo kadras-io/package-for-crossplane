@@ -1,0 +1,53 @@
+# Controllers
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane-kubernetes-provider
+  namespace: crossplane-system
+status:
+  readyReplicas: 1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane-rbac-manager
+  namespace: crossplane-system
+status:
+  readyReplicas: 1 
+
+# Providers
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: crossplane-system
+spec:
+  selector:
+    matchLabels:
+      pkg.crossplane.io/provider: provider-kubernetes
+status:
+  readyReplicas: 1
+
+# Image Pull Secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: canonical-registry-credentials
+  namespace: crossplane-system
+  annotations:
+    secretgen.carvel.dev/image-pull-secret: ""
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: e30K
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: crossplane-system
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: canonical-registry-credentials

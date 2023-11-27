@@ -1,0 +1,5 @@
+---
+args:
+- --enable-environment-configs
+imagePullSecrets:
+- canonical-registry-credentials
