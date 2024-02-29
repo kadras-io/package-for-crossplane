@@ -1,6 +1,6 @@
 ---
 args:
 - --enable-environment-configs
-- –-enable-realtime-compositions
+- --enable-realtime-compositions
 imagePullSecrets:
 - canonical-registry-credentials
