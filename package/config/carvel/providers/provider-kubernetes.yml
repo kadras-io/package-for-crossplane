@@ -1,14 +1,4 @@
 ---
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: provider-kubernetes
-spec:
-  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.12.1
-  runtimeConfigRef:
-    name: provider-kubernetes-runtime-config
-
----
 apiVersion: pkg.crossplane.io/v1beta1
 kind: DeploymentRuntimeConfig
 metadata:
@@ -17,3 +7,13 @@ spec:
   serviceAccountTemplate:
     metadata:
       name: crossplane-kubernetes-provider
+
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-kubernetes
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.12.1
+  runtimeConfigRef:
+    name: provider-kubernetes-runtime-config

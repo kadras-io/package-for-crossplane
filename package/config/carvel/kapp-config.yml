@@ -20,3 +20,17 @@ rebaseRules:
   - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: crossplane-root-ca}
   - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: crossplane-tls-server}
   - apiVersionKindMatcher: {apiVersion: v1, kind: Secret, name: crossplane-tls-client}
+
+#! Wait rules explicitly define how kapp should wait for resources that kapp does not wait for by default.
+#! See: https://carvel.dev/kapp/docs/latest/config/#waitrules.
+waitRules:
+
+#! Specify the condition indicating success for Crossplane Providers and Functions.
+- conditionMatchers:
+    - type: Healthy
+      status: "True"
+      success: true
+  supportsObservedGeneration: false
+  resourceMatchers:
+    - apiVersionKindMatcher: { apiVersion: pkg.crossplane.io/v1, kind: Provider }
+    - apiVersionKindMatcher: { apiVersion: pkg.crossplane.io/v1beta1, kind: Function }
