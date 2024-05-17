@@ -2,16 +2,16 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - helmChart:
-      appVersion: 1.15.0
-      version: 1.15.0
+      appVersion: 1.16.0
+      version: 1.16.0
     path: crossplane
   path: config/helm/upstream
 - contents:
   - git:
-      commitTitle: 'Merge pull request #5395 from phisco/release-1.15...'
-      sha: 3eee5e824bb25256beb38d86a7cd970f94e3d3d2
+      commitTitle: 'Merge pull request #5696 from jbw976/runtime-1.16...'
+      sha: 15395b3ba16cf1311e97d37a6e9de63453fb4e6b
       tags:
-      - v1.15.0
+      - v1.16.0
     path: crossplane
   path: config/carvel/upstream
 kind: LockConfig
