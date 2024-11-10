@@ -1,6 +1,9 @@
 ---
 args:
-- --enable-environment-configs
+# Alpha
+- --enable-dependency-version-upgrades
 - --enable-realtime-compositions
+- --enable-ssa-claims
+
 imagePullSecrets:
 - canonical-registry-credentials
