@@ -2,7 +2,7 @@
 args:
 # Alpha
 - --enable-dependency-version-upgrades
-- --enable-realtime-compositions
+- --enable-function-response-cache
 - --enable-ssa-claims
 
 imagePullSecrets:
