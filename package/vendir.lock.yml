@@ -2,16 +2,16 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - helmChart:
-      appVersion: 1.19.1
-      version: 1.19.1
+      appVersion: 1.20.0
+      version: 1.20.0
     path: crossplane
   path: config/helm/upstream
 - contents:
   - git:
-      commitTitle: 'Merge pull request #6358 from crossplane/renovate/release-1.19-go-github.com-golang-jwt-jwt-v5-vulnerability...'
-      sha: 74030d1b1ea4eb4911642dbd649b1f27b64363be
+      commitTitle: 'Merge pull request #6479 from jbw976/release-1.20...'
+      sha: 2efdb03ae80fc27f4b6b9b0cebc96a462233cf17
       tags:
-      - v1.19.1
+      - v1.20.0
     path: crossplane
   path: config/carvel/upstream
 kind: LockConfig
