@@ -2,9 +2,11 @@
 args:
 # Alpha (see https://github.com/crossplane/crossplane/blob/main/cmd/crossplane/core/core.go)
 - --enable-dependency-version-upgrades
+- --enable-dependency-version-downgrades
+- --enable-signature-verification
 - --enable-function-response-cache
 - --enable-operations
-- --enable-signature-verification
+- --enable-pipeline-inspector
 
 imagePullSecrets:
 - canonical-registry-credentials
