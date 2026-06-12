@@ -2,16 +2,16 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - helmChart:
-      appVersion: 2.2.0
-      version: 2.2.0
+      appVersion: 2.3.2
+      version: 2.3.2
     path: crossplane
   path: config/helm/upstream
 - contents:
   - git:
-      commitTitle: 'Merge pull request #7150 from adamwg/awg/bump-runtime-v2.2...'
-      sha: b7aa9852801ca9959eefdad8233f95635df348c2
+      commitTitle: 'Merge pull request #7475 from crossplane/backport-7341-to-release-2.3...'
+      sha: 90d8b72ad8b829f0bcd7d7d5a98eaa0d579f244a
       tags:
-      - v2.2.0
+      - apis/v2.3.2
     path: crossplane
   path: config/carvel/upstream
 kind: LockConfig
