@@ -2,16 +2,16 @@ apiVersion: vendir.k14s.io/v1alpha1
 directories:
 - contents:
   - helmChart:
-      appVersion: 2.3.2
-      version: 2.3.2
+      appVersion: 2.3.4
+      version: 2.3.4
     path: crossplane
   path: config/helm/upstream
 - contents:
   - git:
-      commitTitle: 'Merge pull request #7475 from crossplane/backport-7341-to-release-2.3...'
-      sha: 90d8b72ad8b829f0bcd7d7d5a98eaa0d579f244a
+      commitTitle: 'Merge pull request #7614 from crossplane/renovate/release-2.3-go-golang.org-x-net-vulnerability...'
+      sha: c2670a735103660d7f436585447f2071bc1de973
       tags:
-      - apis/v2.3.2
+      - apis/v2.3.4
     path: crossplane
   path: config/carvel/upstream
 kind: LockConfig
