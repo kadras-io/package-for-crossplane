@@ -2,7 +2,6 @@ schema-version = "1.12.0"
 
 [install]
 kapp.pkg-path = "kapp"
-kapp.version = "0.65.1"
 ytt.pkg-path = "ytt"
 kbld.pkg-path = "kbld"
 imgpkg.pkg-path = "imgpkg"
