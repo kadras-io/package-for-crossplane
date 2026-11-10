@@ -15,8 +15,9 @@ crds=$(kubectl get crds -o json | jq -r '.items[]
   | .metadata.name')
 
 for crd in $crds; do
-  kubectl get "$crd" -A -o jsonpath='{range .items[*]}{.metadata.namespace}{" "}{.metadata.name}{"\n"}{end}' |
-    while read -r namespace name; do
+  # The name comes first, since the namespace is empty for cluster-scoped resources.
+  kubectl get "$crd" -A -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.metadata.namespace}{"\n"}{end}' |
+    while read -r name namespace; do
       kubectl patch "$crd" "$name" ${namespace:+-n "$namespace"} --type=merge -p '{"metadata":{"finalizers":null}}'
     done
 done
