@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+
+#@ if data.values.functions.extra_resources.enabled:
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-extra-resources
+spec:
+  package: xpkg.crossplane.io/crossplane-contrib/function-extra-resources:v0.4.0
+#@ end

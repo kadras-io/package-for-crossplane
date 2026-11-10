@@ -1,0 +1,35 @@
+---
+# Uninstalling the package keeps the CustomResourceDefinitions, the namespace, the Crossplane resources,
+# and the resources they compose.
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: compositeresourcedefinitions.apiextensions.crossplane.io
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: crossplane-system
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: default
+---
+apiVersion: apiextensions.crossplane.io/v2
+kind: CompositeResourceDefinition
+metadata:
+  name: apps.example.kadras.io
+---
+apiVersion: example.kadras.io/v1alpha1
+kind: App
+metadata:
+  name: podinfo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    crossplane.io/composite: podinfo
+status:
+  availableReplicas: 1

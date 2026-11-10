@@ -1,0 +1,5 @@
+---
+providers:
+  default_activations:
+  - "*.kubernetes.m.crossplane.io"
+  - "*.aws.m.upbound.io"

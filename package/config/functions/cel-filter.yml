@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+
+#@ if data.values.functions.cel_filter.enabled:
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-cel-filter
+spec:
+  package: xpkg.crossplane.io/crossplane-contrib/function-cel-filter:v0.2.1
+#@ end

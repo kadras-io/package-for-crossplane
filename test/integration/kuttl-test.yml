@@ -10,3 +10,9 @@ kindContext: integration
 kindNodeCache: true
 timeout: 180
 artifactsDir: /tmp/kuttl-artifacts
+commands:
+  # The new cluster may still be pulling images, which takes longer than the default timeout.
+  - timeout: 600
+    script: |
+      kapp deploy -a kapp-controller -y \
+        -f https://github.com/carvel-dev/kapp-controller/releases/latest/download/release.yml

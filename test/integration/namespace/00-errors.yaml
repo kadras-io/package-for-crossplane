@@ -1,0 +1,6 @@
+---
+# The disabled functions aren't installed.
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-kcl

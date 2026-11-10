@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crossplane-ca-certificates
+  namespace: crossplane-system
+data:
+  (starts_with("ca.crt", '-----BEGIN CERTIFICATE-----')): true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane
+spec:
+  template:
+    spec:
+      (volumes[?name == 'ca-certs'] | [0].configMap.name): crossplane-ca-certificates
+      (containers[?name == 'crossplane'] | [0]):
+        (env[?name == 'CA_BUNDLE_PATH'] | [0].value): /certs/ca.crt
+        (volumeMounts[?name == 'ca-certs'] | [0].mountPath): /certs

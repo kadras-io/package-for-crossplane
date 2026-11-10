@@ -1,0 +1,101 @@
+---
+# Crossplane composes Deployments and Services, so it needs permissions on them.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: crossplane:compose-apps
+  labels:
+    rbac.crossplane.io/aggregate-to-crossplane: "true"
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["*"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["*"]
+---
+# A namespaced App composite resource, composed of a Deployment and a Service via function-patch-and-transform.
+apiVersion: apiextensions.crossplane.io/v2
+kind: CompositeResourceDefinition
+metadata:
+  name: apps.example.kadras.io
+spec:
+  scope: Namespaced
+  group: example.kadras.io
+  names:
+    kind: App
+    plural: apps
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              image:
+                type: string
+            required:
+            - image
+---
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: apps
+spec:
+  compositeTypeRef:
+    apiVersion: example.kadras.io/v1alpha1
+    kind: App
+  mode: Pipeline
+  pipeline:
+  - step: patch-and-transform
+    functionRef:
+      name: function-patch-and-transform
+    input:
+      apiVersion: pt.fn.crossplane.io/v1beta1
+      kind: Resources
+      resources:
+      - name: deployment
+        base:
+          apiVersion: apps/v1
+          kind: Deployment
+          spec:
+            replicas: 1
+            template:
+              spec:
+                containers:
+                - name: app
+                  ports:
+                  - containerPort: 9898
+        patches:
+        - type: FromCompositeFieldPath
+          fromFieldPath: spec.image
+          toFieldPath: spec.template.spec.containers[0].image
+        - type: FromCompositeFieldPath
+          fromFieldPath: metadata.name
+          toFieldPath: spec.selector.matchLabels[app.kubernetes.io/name]
+        - type: FromCompositeFieldPath
+          fromFieldPath: metadata.name
+          toFieldPath: spec.template.metadata.labels[app.kubernetes.io/name]
+        readinessChecks:
+        - type: MatchCondition
+          matchCondition:
+            type: Available
+            status: "True"
+      - name: service
+        base:
+          apiVersion: v1
+          kind: Service
+          spec:
+            ports:
+            - port: 80
+              targetPort: 9898
+        patches:
+        - type: FromCompositeFieldPath
+          fromFieldPath: metadata.name
+          toFieldPath: spec.selector[app.kubernetes.io/name]
+        readinessChecks:
+        - type: None

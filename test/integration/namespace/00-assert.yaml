@@ -1,0 +1,113 @@
+---
+# Crossplane runs in a custom namespace.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane
+  namespace: platform
+status:
+  readyReplicas: 1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane-rbac-manager
+  namespace: platform
+status:
+  readyReplicas: 1
+---
+# Crossplane deploys the functions in the custom namespace, under the "restricted" Pod Security Standard.
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-patch-and-transform
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-auto-ready
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-cel-filter
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-extra-resources
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-sequencer
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-shell
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-status-transformer
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: platform
+  labels:
+    pkg.crossplane.io/function: function-patch-and-transform
+status:
+  phase: Running
+---
+# The default ManagedResourceActivationPolicy only activates the given managed resources.
+apiVersion: apiextensions.crossplane.io/v1alpha1
+kind: ManagedResourceActivationPolicy
+metadata:
+  name: default
+spec:
+  activate:
+  - "*.kubernetes.m.crossplane.io"

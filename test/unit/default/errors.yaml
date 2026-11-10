@@ -1,0 +1,39 @@
+# No additional certificate authorities.
+apiVersion: v1
+kind: ConfigMap
+---
+# The upstream Helm chart doesn't render the Crossplane resources created at runtime by its init containers.
+apiVersion: apiextensions.crossplane.io/v1alpha1
+kind: ManagedResourceActivationPolicy
+
+# The optional functions aren't installed by default.
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-auto-ready
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-cel-filter
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-extra-resources
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-sequencer
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-shell
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-status-transformer

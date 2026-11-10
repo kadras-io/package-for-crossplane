@@ -1,5 +1,5 @@
-# Controllers
 ---
+# The Crossplane core and the RBAC manager are ready.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,8 +15,60 @@ metadata:
   namespace: crossplane-system
 status:
   readyReplicas: 1
-
-# Image Pull Secret
+---
+# The functions are installed, and their Pods comply with the "restricted" Pod Security Standard enforced on the namespace.
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-patch-and-transform
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-kcl
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-kro
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-pythonic
+status:
+  conditions:
+  - type: Healthy
+    status: "True"
+  - type: Installed
+    status: "True"
+---
+# The default ManagedResourceActivationPolicy activates all the managed resources.
+apiVersion: apiextensions.crossplane.io/v1alpha1
+kind: ManagedResourceActivationPolicy
+metadata:
+  name: default
+spec:
+  activate:
+  - "*"
 ---
 apiVersion: v1
 kind: Secret
@@ -28,19 +80,3 @@ metadata:
 type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: e30K
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: crossplane
-  namespace: crossplane-system
-imagePullSecrets:
-- name: canonical-registry-credentials
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: rbac-manager
-  namespace: crossplane-system
-imagePullSecrets:
-- name: canonical-registry-credentials

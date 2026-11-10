@@ -1,0 +1,25 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+#@ load("/lib/crossplane.star", "components")
+
+#! The controllers expose metrics in the Prometheus format on port 8080 (`/metrics`),
+#! and their Pods are annotated for Prometheus scraping (see helm/values.yml).
+#! The debug logs are enabled via a flag (see lib/crossplane.star).
+#! See: https://docs.crossplane.io/latest/guides/metrics/
+
+#@ if not data.values.observability.metrics.enabled:
+#@ for component in components:
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":component.deployment}})
+---
+spec:
+  template:
+    metadata:
+      annotations:
+        #@overlay/remove
+        prometheus.io/scrape:
+        #@overlay/remove
+        prometheus.io/port:
+        #@overlay/remove
+        prometheus.io/path:
+#@ end
+#@ end

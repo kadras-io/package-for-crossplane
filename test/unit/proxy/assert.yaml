@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane
+spec:
+  template:
+    spec:
+      (containers[?name == 'crossplane'] | [0]):
+        (env[?name == 'HTTPS_PROXY'] | [0].value): http://proxy.kadras.io:3128
+        (env[?name == 'NO_PROXY'] | [0].value): .svc,.cluster.local
+        (env[?name == 'HTTP_PROXY'] | length(@)): 0
+        # The upstream variables are kept.
+        (env[?name == 'POD_NAMESPACE'] | length(@)): 1
+---
+# The RBAC manager doesn't reach outside the cluster.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane-rbac-manager
+spec:
+  template:
+    spec:
+      (containers[?name == 'crossplane'] | [0]):
+        (env[?name == 'HTTPS_PROXY'] | length(@)): 0

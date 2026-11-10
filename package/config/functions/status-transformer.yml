@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+
+#@ if data.values.functions.status_transformer.enabled:
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-status-transformer
+spec:
+  package: xpkg.crossplane.io/crossplane-contrib/function-status-transformer:v0.6.0
+#@ end

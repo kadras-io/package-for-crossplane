@@ -1,0 +1,6 @@
+---
+observability:
+  logging:
+    level: debug
+  metrics:
+    enabled: false

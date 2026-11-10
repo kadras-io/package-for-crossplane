@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+
+#@ if data.values.functions.kcl.enabled:
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-kcl
+spec:
+  package: xpkg.crossplane.io/crossplane-contrib/function-kcl:v0.13.3
+#@ end

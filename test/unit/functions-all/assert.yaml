@@ -1,0 +1,109 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-auto-ready
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-auto-ready:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-cel-filter
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-cel-filter:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-extra-resources
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-extra-resources:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-kcl
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-kcl:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-kro
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-kro:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-patch-and-transform
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-patch-and-transform:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-pythonic
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-pythonic:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-sequencer
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-sequencer:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-shell
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-shell:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-status-transformer
+  annotations:
+    kapp.k14s.io/change-rule.delete: delete before deleting crossplane.packages.kadras.io/controllers
+spec:
+  (starts_with(package, 'xpkg.crossplane.io/crossplane-contrib/function-status-transformer:v')): true
+  packagePullSecrets:
+  - name: canonical-registry-credentials

@@ -3,25 +3,18 @@ kind: PackageBuild
 metadata:
   name: crossplane.packages.kadras.io
 spec:
+  release:
+  - resource: {}
   template:
     spec:
       app:
         spec:
           deploy:
-          - kapp:
-              intoNs: crossplane-system
+          - kapp: {}
           template:
-          - helmTemplate:
-              name: crossplane
-              namespace: crossplane-system
-              path: config/helm/upstream/crossplane
-              valuesFrom:
-              - path: config/helm/values.yml
           - ytt:
-              ignoreUnknownComments: true
               paths:
-              - '-'
-              - config/carvel
+              - config
           - kbld: {}
       export:
       - imgpkgBundle:

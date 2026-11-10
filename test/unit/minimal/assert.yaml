@@ -1,0 +1,9 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane
+spec:
+  template:
+    spec:
+      (initContainers[?name == 'crossplane-init'] | [0]):
+        args: [core, init]

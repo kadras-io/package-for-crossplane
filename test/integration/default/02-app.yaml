@@ -1,0 +1,16 @@
+---
+# Crossplane composes the Deployment and the Service of the App, via function-patch-and-transform,
+# and reports the App as ready once the Deployment is available.
+apiVersion: kuttl.dev/v1beta1
+kind: TestStep
+commands:
+  - script: |
+      kubectl apply -n "$NAMESPACE" -f - <<EOF
+      apiVersion: example.kadras.io/v1alpha1
+      kind: App
+      metadata:
+        name: podinfo
+      spec:
+        image: ghcr.io/stefanprodan/podinfo:6.17.0
+      EOF
+  - script: kubectl wait -n "$NAMESPACE" --for=condition=Ready app.example.kadras.io/podinfo --timeout=150s

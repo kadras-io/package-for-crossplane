@@ -8,26 +8,20 @@ spec:
   template:
     spec:
       deploy:
-      - kapp:
-          intoNs: crossplane-system
+        - kapp: {}
       fetch:
-      - git: {}
+        - git: {}
       template:
-      - helmTemplate:
-          name: crossplane
-          namespace: crossplane-system
-          path: config/helm/upstream/crossplane
-          valuesFrom:
-          - path: config/helm/values.yml
-      - ytt:
-          ignoreUnknownComments: true
-          paths:
-          - '-'
-          - config/carvel
-      - kbld: {}
+        - ytt:
+            paths:
+              - config
+        - kbld: {}
   valuesSchema:
-    openAPIv3: null
+    openAPIv3: {}
   version: 0.0.0
+  licenses:
+    - Apache 2.0
+  releaseNotes: https://github.com/kadras-io/package-for-crossplane/releases
 
 ---
 apiVersion: data.packaging.carvel.dev/v1alpha1

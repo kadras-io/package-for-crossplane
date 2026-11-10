@@ -1,0 +1,26 @@
+---
+# The controllers are deleted.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane
+  namespace: crossplane-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane-rbac-manager
+  namespace: crossplane-system
+---
+# The functions are deleted, with their Pods, while Crossplane still runs to handle them.
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-patch-and-transform
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: crossplane-system
+  labels:
+    pkg.crossplane.io/function: function-patch-and-transform

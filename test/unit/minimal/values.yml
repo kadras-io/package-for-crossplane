@@ -1,0 +1,13 @@
+#! No default activations and no functions.
+---
+providers:
+  default_activations: []
+functions:
+  patch_and_transform:
+    enabled: false
+  kcl:
+    enabled: false
+  kro:
+    enabled: false
+  pythonic:
+    enabled: false

@@ -5,20 +5,20 @@ directories:
       name: crossplane
       repository:
         url: https://charts.crossplane.io/stable
-      version: 2.3.4
+      version: 2.4.3
     path: crossplane
-  path: config/helm/upstream
+  path: helm/upstream
 - contents:
   # The Crossplane Helm chart doesn't include CRDs, which are created at runtime.
-  # We fetch them explicitly to make it possible to instantiate CR as part of this package. 
+  # We fetch them explicitly to make it possible to instantiate CR as part of this package.
   - git:
-      ref: v2.3.4
+      ref: v2.4.3
       url: https://github.com/crossplane/crossplane
     includePaths:
     - cluster/crds/*.yaml
     - cluster/meta/*.yaml
     newRootPath: cluster
-    path: crossplane
-  path: config/carvel/upstream
+    path: .
+  path: config/upstream/crossplane
 kind: Config
 minimumRequiredVersion: 0.32.0

@@ -1,0 +1,25 @@
+---
+# Values for rendering the upstream Helm chart into config/upstream (see `task vendor`).
+# They only cover what's fixed for the package: what users can configure
+# is in config/values-schema.yml and applied via ytt overlays on the rendered manifests.
+
+# All the alpha features, which are disabled by default upstream. The beta features are enabled by default.
+# They can be disabled via the `crossplane.args` value.
+# See: https://github.com/crossplane/crossplane/blob/main/cmd/crossplane/core/core.go
+args:
+- --enable-dependency-version-upgrades
+- --enable-dependency-version-downgrades
+- --enable-signature-verification
+- --enable-function-response-cache
+- --enable-operations
+- --enable-pipeline-inspector
+# It requires the `--enable-usages` beta feature.
+- --enable-provider-deletion-protection
+
+# The Secret is created by the package and populated by secretgen-controller (see overlays/image-pull-secret.yml).
+imagePullSecrets:
+- canonical-registry-credentials
+
+# The metrics ports and the Prometheus annotations. The annotations can be removed via `observability.metrics.enabled`.
+metrics:
+  enabled: true

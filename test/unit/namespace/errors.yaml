@@ -1,0 +1,25 @@
+# Nothing is left in the default namespace.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: crossplane-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: crossplane-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: crossplane-system
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: crossplane-system
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: crossplane-system

@@ -5,7 +5,14 @@
   packages = [
     # Carvel
     pkgs.imgpkg
-    pkgs.kapp
+    # kapp 0.66.0 rejects the change group it computes for CRDs with long kinds, like
+    # ManagedResourceActivationPolicy. Fixed in 0.66.1 (https://github.com/carvel-dev/kapp/pull/1124), which requires Go 1.27.
+    ((pkgs.kapp.override { buildGoModule = pkgs.buildGo127Module; }).overrideAttrs (finalAttrs: prev: {
+      version = "0.66.1";
+      src = prev.src.override {
+        hash = "sha256-46wW5KZKj6zqvYsWC86cJGWtzpP3bvymXmkZOc6hZDc=";
+      };
+    }))
     pkgs.kbld
     pkgs.vendir
     pkgs.ytt

@@ -1,0 +1,15 @@
+---
+# The composed resources exist, labelled with the App they belong to.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    crossplane.io/composite: podinfo
+status:
+  availableReplicas: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    crossplane.io/composite: podinfo

@@ -1,0 +1,2 @@
+apiVersion: pkg.crossplane.io/v1
+kind: Function

@@ -1,0 +1,30 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+#@ load("/lib/crossplane.star", "upstream_namespace")
+
+#! Crossplane runs in the package namespace, where it also deploys the providers and functions.
+#! The upstream Helm chart doesn't create it, and it's rendered with the default namespace, replaced here.
+#! The controllers read their namespace from the `POD_NAMESPACE` environment variable.
+
+#@ namespace = data.values.namespace
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ namespace
+
+#@overlay/match by=overlay.subset({"metadata":{"namespace":upstream_namespace}}), expects="1+"
+---
+metadata:
+  namespace: #@ namespace
+
+#@ def binds_service_account(index, left, right):
+#@   return left["kind"] == "ClusterRoleBinding" and any([subject["kind"] == "ServiceAccount" for subject in left["subjects"]])
+#@ end
+
+#@overlay/match by=binds_service_account, expects="1+"
+---
+subjects:
+#@overlay/match by=overlay.subset({"kind":"ServiceAccount"})
+- namespace: #@ namespace

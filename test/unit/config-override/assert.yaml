@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane
+spec:
+  template:
+    spec:
+      (containers[?name == 'crossplane'] | [0]):
+        # The subcommand stays first.
+        (args[0:2]): [core, start]
+        (contains(args, '--max-concurrent-reconciles=200')): true
+        (contains(args, '--poll-interval=5m')): true
+        (contains(args, '--debug=true')): true
+        (contains(args, '--enable-provider-deletion-protection')): false
+        # The other upstream flags are kept.
+        (contains(args, '--enable-operations')): true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane-rbac-manager
+spec:
+  template:
+    spec:
+      (containers[?name == 'crossplane'] | [0]):
+        args: [rbac, start, --provider-clusterrole=crossplane:allowed-provider-permissions, --max-concurrent-reconciles=20]

@@ -1,0 +1,41 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:overlay", "overlay")
+#@ load("/lib/crossplane.star", "container", "core")
+
+#! The Crossplane core pulls the packages from OCI registries. It trusts the certificate authorities
+#! in the bundle referenced by the `CA_BUNDLE_PATH` environment variable, in addition to the system ones.
+#! It's the same configuration as the `registryCaBundleConfig` value of the upstream Helm chart.
+
+#@ if data.values.ca_cert_data:
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crossplane-ca-certificates
+  namespace: #@ data.values.namespace
+data:
+  ca.crt: #@ data.values.ca_cert_data
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":core.deployment}})
+---
+spec:
+  template:
+    spec:
+      containers:
+        #@overlay/match by="name"
+        - name: #@ container
+          env:
+          - name: CA_BUNDLE_PATH
+            value: /certs/ca.crt
+          volumeMounts:
+          - name: ca-certs
+            mountPath: /certs
+            readOnly: true
+      volumes:
+      - name: ca-certs
+        configMap:
+          name: crossplane-ca-certificates
+          items:
+          - key: ca.crt
+            path: ca.crt
+#@ end

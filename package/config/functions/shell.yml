@@ -1,0 +1,11 @@
+#@ load("@ytt:data", "data")
+
+#@ if data.values.functions.shell.enabled:
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Function
+metadata:
+  name: function-shell
+spec:
+  package: xpkg.crossplane.io/crossplane-contrib/function-shell:v0.7.1
+#@ end

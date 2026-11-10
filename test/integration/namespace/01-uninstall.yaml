@@ -1,0 +1,9 @@
+---
+# The package is deleted with kapp, as kapp-controller does when deleting the PackageInstall:
+# `kctrl dev --delete` doesn't delete the resources of a local installation.
+# Then, the Crossplane resources, their CustomResourceDefinitions, and the namespace, which the uninstallation kept, are removed.
+apiVersion: kuttl.dev/v1beta1
+kind: TestStep
+commands:
+  - script: kapp delete -a crossplane.app -n tests -y
+  - script: ../cleanup.sh platform

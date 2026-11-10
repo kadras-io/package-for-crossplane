@@ -1,0 +1,47 @@
+#@ load("@ytt:overlay", "overlay")
+
+#! The Crossplane resources have finalizers, handled by Crossplane and the providers while they run: deleting
+#! a managed resource deletes the external resource it represents. Deleting the CustomResourceDefinitions,
+#! or the namespace with the providers in it, would delete them all, or leave them stuck on their finalizers.
+#! Instead, uninstalling the package keeps the CustomResourceDefinitions and the namespace, like `helm uninstall`:
+#! the controllers are deleted, and the Crossplane resources and the providers stay, waiting for Crossplane
+#! to be installed again. To remove them too, follow the upstream uninstall procedure (see docs/upgrade.md).
+#! When the package is installed again, kapp updates the resources it left behind instead of failing because they already exist.
+#! See: https://docs.crossplane.io/latest/guides/uninstall-crossplane/ and https://carvel.dev/kapp/docs/latest/apply/
+
+#@overlay/match by=overlay.or_op(overlay.subset({"kind":"CustomResourceDefinition"}), overlay.subset({"kind":"Namespace"})), expects="1+"
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    #@overlay/match missing_ok=True
+    kapp.k14s.io/delete-strategy: orphan
+    #@overlay/match missing_ok=True
+    kapp.k14s.io/create-strategy: fallback-on-update
+
+#! The functions of the package have finalizers too, handled by Crossplane, which deletes their revisions and Pods.
+#! On uninstall, they're deleted before Crossplane, while it can still handle them. On install, they're created
+#! after Crossplane, which installs them.
+
+#@ functions = overlay.subset({"apiVersion":"pkg.crossplane.io/v1", "kind":"Function"})
+#@ controllers = "crossplane.packages.kadras.io/controllers"
+
+#@ resources = overlay.subset({"metadata":{}})
+
+#@overlay/match by=overlay.and_op(resources, overlay.not_op(functions)), expects="1+"
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    #@overlay/match missing_ok=True
+    kapp.k14s.io/change-group: #@ controllers
+
+#@overlay/match by=functions, expects="0+"
+---
+metadata:
+  #@overlay/match missing_ok=True
+  annotations:
+    #@overlay/match missing_ok=True
+    kapp.k14s.io/change-rule.upsert: #@ "upsert after upserting " + controllers
+    #@overlay/match missing_ok=True
+    kapp.k14s.io/change-rule.delete: #@ "delete before deleting " + controllers

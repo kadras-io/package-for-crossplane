@@ -1,0 +1,23 @@
+#! All the functions.
+---
+functions:
+  auto_ready:
+    enabled: true
+  cel_filter:
+    enabled: true
+  extra_resources:
+    enabled: true
+  kcl:
+    enabled: true
+  kro:
+    enabled: true
+  patch_and_transform:
+    enabled: true
+  pythonic:
+    enabled: true
+  sequencer:
+    enabled: true
+  shell:
+    enabled: true
+  status_transformer:
+    enabled: true

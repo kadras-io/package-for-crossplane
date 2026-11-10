@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane
+spec:
+  template:
+    spec:
+      (containers[?name == 'crossplane'] | [0]):
+        (contains(args, '--debug=true')): true
+        # The upstream flags are kept.
+        (contains(args, '--enable-operations')): true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crossplane-rbac-manager
+spec:
+  template:
+    spec:
+      (containers[?name == 'crossplane'] | [0]):
+        (contains(args, '--debug=true')): true

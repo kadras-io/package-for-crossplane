@@ -1,0 +1,12 @@
+---
+crossplane:
+  args:
+    max-concurrent-reconciles: 200
+    --poll-interval: 5m
+    # An upstream flag can be removed.
+    enable-provider-deletion-protection: null
+    # A computed flag can be overridden.
+    debug: true
+rbac_manager:
+  args:
+    max-concurrent-reconciles: 20

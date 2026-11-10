@@ -1,0 +1,34 @@
+#@ load("@ytt:overlay", "overlay")
+#@ load("/lib/crossplane.star", "args_merger", "component_args", "components", "container", "core", "core_init_args", "init_container")
+
+#! Each controller is configured via flags. The ones computed from the package values are merged
+#! into the upstream flags, then `<component>.args` is merged on top, so its flags take precedence.
+#! See: https://docs.crossplane.io/latest/get-started/install/#feature-flags
+
+#@ for component in components:
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":component.deployment}})
+---
+spec:
+  template:
+    spec:
+      containers:
+        #@overlay/match by="name"
+        - name: #@ container
+          #@overlay/replace via=args_merger(component_args(component))
+          args:
+#@ end
+
+#! The init container of the Crossplane core creates the default ManagedResourceActivationPolicy,
+#! with the activations from `providers.default_activations`.
+#! See: https://docs.crossplane.io/latest/managed-resources/managed-resource-activation-policies/
+
+#@overlay/match by=overlay.subset({"kind":"Deployment", "metadata":{"name":core.deployment}})
+---
+spec:
+  template:
+    spec:
+      initContainers:
+        #@overlay/match by="name"
+        - name: #@ init_container
+          #@overlay/replace
+          args: #@ core_init_args()

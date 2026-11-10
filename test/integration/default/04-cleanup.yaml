@@ -1,0 +1,7 @@
+---
+# Removes the Crossplane resources, their CustomResourceDefinitions, and the namespace, which the uninstallation kept.
+apiVersion: kuttl.dev/v1beta1
+kind: TestStep
+commands:
+  - script: ../cleanup.sh crossplane-system
+  - script: kubectl delete clusterrole crossplane:compose-apps
