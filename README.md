@@ -15,6 +15,7 @@ A Carvel package for [Crossplane](https://crossplane.io), a Kubernetes extension
 * **Providers**. Configurable activation of the managed resources, to only create the CustomResourceDefinitions you use.
 * **Observability**. Debug logs on demand, and metrics annotated for Prometheus scraping.
 * **Security**. The controllers, providers, and functions comply with the `restricted` [Pod Security Standard](https://kubernetes.io/docs/concepts/security/pod-security-standards/), enforced on their namespace, and the controllers mount short-lived service account tokens.
+* **Access**. The Kubernetes default roles are extended with the namespaced composite resources: `edit` and `admin` manage the ones of a namespace, while `view` reads them. The cluster-scoped Crossplane resources and the managed resources aren't included. See [docs/rbac.md](docs/rbac.md).
 
 ## 🚀&nbsp; Getting Started
 
@@ -215,6 +216,7 @@ Features:
 * [High availability](docs/high-availability.md)
 * [Observability](docs/observability.md)
 * [Security](docs/security.md)
+* [Access to the resources](docs/rbac.md)
 
 Operations:
 

@@ -13,3 +13,13 @@ kind: Service
 metadata:
   labels:
     crossplane.io/composite: podinfo
+---
+# The `edit` role manages the namespaced composite resources, and the `view` role reads them.
+apiVersion: kuttl.dev/v1beta1
+kind: TestAssert
+commands:
+  - script: test "$(kubectl auth can-i create apps.example.kadras.io -n $NAMESPACE --as=developer)" = yes
+  - script: test "$(kubectl auth can-i list apps.example.kadras.io -n $NAMESPACE --as=viewer)" = yes
+  - script: test "$(kubectl auth can-i create apps.example.kadras.io -n $NAMESPACE --as=viewer)" = no
+  # The permissions on the cluster-scoped Crossplane resources aren't granted.
+  - script: test "$(kubectl auth can-i create compositions.apiextensions.crossplane.io --as=developer)" = no
